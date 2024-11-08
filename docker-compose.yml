@@ -1,0 +1,72 @@
+
+
+services:
+  backend:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/code
+      - "C:/Users/favaz/Downloads/hrms-30b51-firebase-adminsdk-ogc4s-3346111383.json:/code/config/firebase-adminsdk.json"  # Mount JSON file
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FIREBASE_CREDENTIALS=/code/config/firebase-adminsdk.json  # Path for config()
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}  # Use env vars for PostgreSQL connection
+
+  postgres:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+
+  celery:
+    build: ./backend
+    command: celery -A hrm_backend worker --loglevel=info
+    volumes:
+      - ./backend:/code
+      - "C:/Users/favaz/Downloads/hrms-30b51-firebase-adminsdk-ogc4s-3346111383.json:/code/config/firebase-adminsdk.json"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FIREBASE_CREDENTIALS=/code/config/firebase-adminsdk.json
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+
+  celery-beat:
+    build: ./backend
+    command: celery -A hrm_backend beat --loglevel=info
+    volumes:
+      - ./backend:/code
+      - "C:/Users/favaz/Downloads/hrms-30b51-firebase-adminsdk-ogc4s-3346111383.json:/code/config/firebase-adminsdk.json"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FIREBASE_CREDENTIALS=/code/config/firebase-adminsdk.json
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+
+volumes:
+  postgres_data:
