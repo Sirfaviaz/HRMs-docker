@@ -1,0 +1,16 @@
+.settings-container {
+    display: flex;
+    height: 100vh; /* Full height */
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 10px;
+    margin-left: 10px; /* Matches the sidebar's width */
+    overflow-y: auto;
+}
+
+.sidebar-item.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+}

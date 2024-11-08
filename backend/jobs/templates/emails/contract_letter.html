@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employment Contract</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #2c3e50;
+        }
+
+        h3 {
+            color: #34495e;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 15px;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        .signature {
+            margin-top: 40px;
+            font-size: 16px;
+        }
+
+        .company-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2980b9;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Employment Contract</h1>
+
+        <p>Date: {{ contract.contract_date }}</p>
+
+        <p>Dear {{ contract.candidate_application.first_name }} {{ contract.candidate_application.last_name }},</p>
+
+        <p>
+            We are pleased to confirm the terms and conditions of your employment with <strong>{{ company_name }}</strong> as outlined below.
+        </p>
+
+        <h3>Employment Terms</h3>
+
+        <p><strong>Position:</strong> {{ contract.job_title }}</p>
+        <p><strong>Salary:</strong> {{ contract.salary }} per annum, paid monthly.</p>
+        <p><strong>Work Schedule:</strong> {{ contract.get_workshift_display }} shift, {{ contract.get_worktype_display }}.</p>
+        <p><strong>Start Date:</strong> {{ contract.contract_start_date }}</p>
+
+        <h3>Job Responsibilities</h3>
+        <p>Your responsibilities include, but are not limited to:</p>
+        <ul>
+            <li>Fulfill duties outlined in the attached job description.</li>
+            <li>Work collaboratively with the team.</li>
+            <li>Adhere to company policies and practices.</li>
+        </ul>
+
+        <h3>Confidentiality Agreement</h3>
+        <p>
+            You agree to maintain confidentiality of all company information and intellectual property during and after your employment with <strong>{{ company_name }}</strong>.
+        </p>
+
+        <h3>Termination Clause</h3>
+        <p>
+            Either party may terminate this contract with one month’s notice. Further details regarding termination are provided in the employee handbook.
+        </p>
+
+        <h3>Acceptance</h3>
+        <p>
+            Please sign and return a copy of this contract to confirm your acceptance.
+        </p>
+
+        <p class="signature">
+            Sincerely,<br>
+            <span class="company-name">{{ company_name }}</span><br>
+            {{ company_representative }}<br>
+            HR Manager, {{ company_name }}
+        </p>
+
+        <div class="footer">
+            <p>If you have any questions, feel free to contact us at hr@{{ company_domain }} or call us at (123) 456-7890.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

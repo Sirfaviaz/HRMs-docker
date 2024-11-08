@@ -1,0 +1,63 @@
+.futuristic-btn {
+    background: linear-gradient(90deg, #007bff, #00d4ff);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .futuristic-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 0;
+    transition: transform 0.4s ease;
+    transform: translateX(-100%);
+  }
+  
+  .futuristic-btn:hover:before {
+    transform: translateX(0);
+  }
+  
+  .futuristic-btn:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 1;
+    transition: all 0.4s ease;
+  }
+  
+  .futuristic-btn:hover:after {
+    width: 100%;
+  }
+  
+  .futuristic-btn.clocked-in {
+    background: linear-gradient(90deg, #007bff, #00d4ff);
+  }
+  
+  .futuristic-btn.clocked-out {
+    background: linear-gradient(90deg, #ff5f5f, #ffb84d);
+  }
+  
+  .futuristic-btn.clocked-in:hover {
+    background: linear-gradient(90deg, #0056b3, #0097c1);
+  }
+  
+  .futuristic-btn.clocked-out:hover {
+    background: linear-gradient(90deg, #d43939, #d4821f);
+  }
+  

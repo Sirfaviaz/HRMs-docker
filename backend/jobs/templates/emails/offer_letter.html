@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offer Letter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #2c3e50;
+        }
+
+        h3 {
+            color: #34495e;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 15px;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        .signature {
+            margin-top: 40px;
+            font-size: 16px;
+        }
+
+        .company-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2980b9;
+        }
+
+        .accept-offer {
+            display: block;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .accept-offer button {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .accept-offer button:hover {
+            background-color: #2ecc71;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Offer Letter</h1>
+
+        <p>Dear {{ contract.candidate_application.first_name }} {{ contract.candidate_application.last_name }},</p>
+
+        <p>
+            We are delighted to offer you the position of <strong>{{ contract.candidate_application.job_posting.title }}</strong> 
+            at our company. After carefully reviewing your application and interview performance, we are confident that your skills 
+            and experience will be a valuable asset to our team.
+        </p>
+
+        <h3>Contract Details</h3>
+
+        <ul>
+            <li><strong>Salary:</strong> {{ contract.salary }}</li>
+            <li><strong>Work Shift:</strong> {{ contract.get_workshift_display }}</li>
+            <li><strong>Work Type:</strong> {{ contract.get_worktype_display }}</li>
+            <li><strong>Employee Type:</strong> {{ contract.get_employee_type_display }}</li>
+            <li><strong>Start Date:</strong> {{ contract.contract_start_date }}</li>
+            <li><strong>End Date:</strong> {{ contract.contract_end_date }}</li>
+        </ul>
+
+        <p>
+            We are excited to have you join us and look forward to your contribution to the success of the team.
+            Please confirm your acceptance of this offer by clicking the button below.
+        </p>
+
+        <div class="accept-offer">
+            <form action="{{ contract_upload }}" method="POST">
+                <button type="submit">Accept Offer</button>
+            </form>
+        </div>
+
+        <p class="signature">
+            Sincerely,<br>
+            <span class="company-name">Company Name</span>
+        </p>
+
+        <div class="footer">
+            <p>If you have any questions, feel free to reach out to us at hr@company.com or call us at (123) 456-7890.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
