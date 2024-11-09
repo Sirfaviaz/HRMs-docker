@@ -11,8 +11,13 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install --no-progress
 
+# Address dependency warnings
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
 # Copy project files and build.
 COPY . .
+# Disable source maps to reduce memory usage
+ENV GENERATE_SOURCEMAP=false
 RUN npm run build
 
 # Production stage
