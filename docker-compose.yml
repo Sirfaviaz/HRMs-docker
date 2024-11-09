@@ -1,12 +1,12 @@
-
+version: '3.8'
 
 services:
   backend:
     build: ./backend
-    command: python manage.py runserver 0.0.0.0:8000
+    command: ["/wait-for-it.sh", "postgres:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - ./backend:/code
-      - "C:/Users/favaz/Downloads/hrms-30b51-firebase-adminsdk-ogc4s-3346111383.json:/code/config/firebase-adminsdk.json"  # Mount JSON file
+      - "./path/to/your/firebase-adminsdk.json:/code/config/firebase-adminsdk.json"
     ports:
       - "8000:8000"
     depends_on:
@@ -14,8 +14,8 @@ services:
       - redis
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
-      - FIREBASE_CREDENTIALS=/code/config/firebase-adminsdk.json  # Path for config()
-      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}  # Use env vars for PostgreSQL connection
+      - FIREBASE_CREDENTIALS=/code/config/firebase-adminsdk.json
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
 
   postgres:
     image: postgres:13
@@ -42,10 +42,10 @@ services:
 
   celery:
     build: ./backend
-    command: celery -A hrm_backend worker --loglevel=info
+    command: ["/wait-for-it.sh", "postgres:5432", "--", "celery", "-A", "hrm_backend", "worker", "--loglevel=info"]
     volumes:
       - ./backend:/code
-      - "C:/Users/favaz/Downloads/hrms-30b51-firebase-adminsdk-ogc4s-3346111383.json:/code/config/firebase-adminsdk.json"
+      - "./path/to/your/firebase-adminsdk.json:/code/config/firebase-adminsdk.json"
     depends_on:
       - postgres
       - redis
@@ -56,10 +56,10 @@ services:
 
   celery-beat:
     build: ./backend
-    command: celery -A hrm_backend beat --loglevel=info
+    command: ["/wait-for-it.sh", "postgres:5432", "--", "celery", "-A", "hrm_backend", "beat", "--loglevel=info"]
     volumes:
       - ./backend:/code
-      - "C:/Users/favaz/Downloads/hrms-30b51-firebase-adminsdk-ogc4s-3346111383.json:/code/config/firebase-adminsdk.json"
+      - "./path/to/your/firebase-adminsdk.json:/code/config/firebase-adminsdk.json"
     depends_on:
       - postgres
       - redis
